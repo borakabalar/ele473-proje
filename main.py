@@ -4,8 +4,8 @@ import cv2
 import numpy as np
 
 
-def rotate(mat, angle):
-    height, width = mat.shape[:2]
+def rotate(img, angle):
+    height, width = img.shape[0], img.shape[1]
     center = (width / 2, height / 2)
 
     radx = np.radians(angle)
@@ -19,13 +19,13 @@ def rotate(mat, angle):
     trans_mat[0, 2] += ((newx / 2) - center[0])
     trans_mat[1, 2] += ((newy / 2) - center[1])
 
-    rotated_mat = cv2.warpAffine(mat, trans_mat, (newx, newy), borderValue=0)
+    rotated_mat = cv2.warpAffine(img, trans_mat, (newx, newy), borderValue=0)
     return rotated_mat
 
 
 start = time.time()
 muhur = cv2.imread("muhur.png")
-pusula = cv2.imread("./gercek_pusula/gercek5.jpeg")
+pusula = cv2.imread("./gercek_pusula/gercek4.jpeg")
 
 muhur = cv2.cvtColor(muhur, cv2.COLOR_RGBA2GRAY)
 pusula_g = cv2.cvtColor(pusula, cv2.COLOR_RGBA2GRAY)
@@ -65,7 +65,6 @@ sizes = []
 oy1 = False
 oy2 = False
 
-found = False
 for degree in range(0, 360, 15):
     muhur_rot = rotate(muhur, degree)
     y_nonzero, x_nonzero = np.nonzero(muhur_rot)
@@ -84,8 +83,6 @@ for degree in range(0, 360, 15):
         oy1 = True
     if in2 and maxval > 0.7:
         oy2 = True
-    elif maxval > 0.7:
-        found = True
 
 if oy1 is not oy2:
     if oy1:
@@ -97,7 +94,7 @@ else:
 
 print("Time Elapsed: {:.2f}s".format(time.time() - start))
 
-if oy1 or oy2 or found:
+if oy1 or oy2:
     idx = vals.index(max(vals))
     loc = locs[idx]
     size = sizes[idx]
