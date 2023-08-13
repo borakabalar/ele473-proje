@@ -25,7 +25,7 @@ def rotate(img, angle):
 
 start = time.time()
 muhur = cv2.imread("muhur.png")
-pusula = cv2.imread("./gercek_pusula/gercek4.jpeg")
+pusula = cv2.imread("./gercek_pusula/gercek13.jpeg")
 
 muhur = cv2.cvtColor(muhur, cv2.COLOR_RGBA2GRAY)
 pusula_g = cv2.cvtColor(pusula, cv2.COLOR_RGBA2GRAY)
@@ -79,9 +79,9 @@ for degree in range(0, 360, 15):
     locs.append(maxloc)
     vals.append(maxval)
     sizes.append((muhur_roty, muhur_rotx))
-    if in1 and maxval > 0.7:
+    if in1 and maxval > 0.65:
         oy1 = True
-    if in2 and maxval > 0.7:
+    if in2 and maxval > 0.65:
         oy2 = True
 
 if oy1 is not oy2:
